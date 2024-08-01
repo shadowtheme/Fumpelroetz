@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,7 +9,7 @@ namespace EscapeRoomControlPanel
         {
             Panel newScenePanel = new Panel
             {
-                Size = new Size(760, 400),
+                Size = new Size(1400, 700),
                 Location = new Point(sceneData.LocationX, sceneData.LocationY),
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = SystemColors.ControlLight,
@@ -60,44 +59,52 @@ namespace EscapeRoomControlPanel
                 }
             };
 
+            // Add click event to the panel to remove focus from TextBox when clicking outside
             newScenePanel.Click += form.EinstellungenForm_Click;
             headerPanel.Click += form.EinstellungenForm_Click;
 
+            // Create Delete Button
             Button deleteButton = new Button
             {
                 Text = "Szene löschen",
                 Dock = DockStyle.Right,
-                Width = 60
+                Width = 80
             };
             deleteButton.Click += (s, e) => form.DeleteScene(newScenePanel, newSceneButton);
 
+            // Create Behavior Button
             Button addBehaviorButton = new Button
             {
                 Text = "Verhalten hinzufügen",
                 Location = new Point(10, 60),
-                Size = new Size(150, 30)
+                Width = 150,
+                Height = 30
             };
-            addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager();
+            addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager(newScenePanel);
+
+            // Create Vertical Separator
+            Panel separatorPanel = new Panel
+            {
+                Location = new Point(170, 50),
+                Size = new Size(2, 700),
+                BackColor = Color.Gray
+            };
 
             headerPanel.Controls.Add(sceneNameTextBox);
             headerPanel.Controls.Add(deleteButton);
 
             newScenePanel.Controls.Add(headerPanel);
             newScenePanel.Controls.Add(addBehaviorButton);
+            newScenePanel.Controls.Add(separatorPanel);
 
-            foreach (var panel in form.scenePanels)
-            {
-                panel.Visible = false;
-            }
+            form.Controls.Add(newScenePanel);
+            form.Controls.Add(newSceneButton);
 
             form.scenePanels.Add(newScenePanel);
-            form.Controls.Add(newScenePanel);
-            newScenePanel.BringToFront();
-
             form.szeneButtons.Add(newSceneButton);
-            form.Controls.Add(newSceneButton);
 
             form.UpdateSceneButtonPositions();
         }
+
     }
 }
