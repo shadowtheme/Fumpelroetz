@@ -32,6 +32,17 @@ namespace EscapeRoomControlPanel
                 MessageBox.Show("Bitte wählen Sie ein Verhalten aus.");
             }
         }
+
+        public static void ShowBehaviorManager(EinstellungenForm form, Panel scenePanel)
+        {
+            using (var behaviorManagerForm = new BehaviorManagerForm())
+            {
+                if (behaviorManagerForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Hier können Sie das ausgewählte Verhalten zur Szene hinzufügen
+                    MessageBox.Show($"Verhalten hinzugefügt: {behaviorManagerForm.SelectedBehavior}");
+                }
+            }
+        }
     }
 }
-
