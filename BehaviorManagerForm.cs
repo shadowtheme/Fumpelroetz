@@ -19,6 +19,7 @@ namespace EscapeRoomControlPanel
             behaviorListBox.Items.Add("Szene gestartet");
             behaviorListBox.Items.Add("Audio startet");
             behaviorListBox.Items.Add("Audio stoppt");
+            behaviorListBox.Items.Add("Aktionbutton");
             // Weitere Verhaltensweisen können hier hinzugefügt werden
         }
 
