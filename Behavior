@@ -1,14 +1,26 @@
+using System;
+using System.Collections.Generic;
+
 namespace EscapeRoomControlPanel
 {
-    public abstract class Behavior
+    public class BehaviorManager
     {
-        public abstract string Name { get; }
-        public abstract string Description { get; }
-    }
+        private List<Behavior> behaviors;
 
-    public class PinStatusBehavior : Behavior
-    {
-        public override string Name => "PinStatus abfragen";
-        public override string Description => "Beschreibung für PinStatus abfragen";
+        public BehaviorManager()
+        {
+            behaviors = new List<Behavior>();
+        }
+
+        public void AddBehavior(Behavior behavior)
+        {
+            behaviors.Add(behavior);
+        }
+
+        public List<Behavior> GetBehaviors()
+        {
+            return behaviors;
+        }
     }
 }
+
