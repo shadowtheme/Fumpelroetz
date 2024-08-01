@@ -11,8 +11,8 @@ namespace EscapeRoomControlPanel
         {
             Panel newScenePanel = new Panel
             {
-                Size = new System.Drawing.Size(760, 400),
-                Location = new System.Drawing.Point(12, 66),
+                Size = new Size(1400, 700),
+                Location = new Point(28, 66),
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = SystemColors.ControlLight,
                 Name = $"ScenePanel_{sceneCounter}"
@@ -20,27 +20,27 @@ namespace EscapeRoomControlPanel
 
             Button newSceneButton = new Button
             {
-                Size = new System.Drawing.Size(100, 30),
-                Text = $"Scene {sceneCounter}"
+                Size = new Size(100, 30),
+                Text = "Neue Szene"
             };
             newSceneButton.Click += (s, e) => form.ShowScene(newScenePanel);
 
             Panel headerPanel = new Panel
             {
-                Size = new System.Drawing.Size(760, 50),
+                Size = new Size(760, 50),
                 Dock = DockStyle.Top,
-                BackColor = System.Drawing.Color.Gray
+                BackColor = Color.Gray
             };
 
             TextBox sceneNameTextBox = new TextBox
             {
-                Text = $"Scene {sceneCounter}",
+                Text = "Neue Szene",
                 Dock = DockStyle.Left,
                 TextAlign = HorizontalAlignment.Left,
                 BorderStyle = BorderStyle.None,
-                BackColor = System.Drawing.Color.Gray,
-                ForeColor = System.Drawing.Color.White,
-                Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0),
+                BackColor = Color.Gray,
+                ForeColor = Color.White,
+                Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0),
                 Width = 700
             };
             sceneNameTextBox.Enter += (s, e) => sceneNameTextBox.SelectAll();
@@ -61,30 +61,43 @@ namespace EscapeRoomControlPanel
                 }
             };
 
+            // Add click event to the panel to remove focus from TextBox when clicking outside
             newScenePanel.Click += form.EinstellungenForm_Click;
             headerPanel.Click += form.EinstellungenForm_Click;
 
+            // Create Delete Button
             Button deleteButton = new Button
             {
                 Text = "Szene löschen",
                 Dock = DockStyle.Right,
-                Width = 60
+                Width = 80
             };
             deleteButton.Click += (s, e) => form.DeleteScene(newScenePanel, newSceneButton);
 
+            // Create Behavior Button
             Button addBehaviorButton = new Button
             {
                 Text = "Verhalten hinzufügen",
-                Location = new System.Drawing.Point(10, 60),
-                Size = new System.Drawing.Size(150, 30)
+                Location = new Point(10, 60),
+                Width = 150,
+                Height = 30
             };
-            addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager();
+            addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager(newScenePanel);
+
+            // Create Vertical Separator
+            Panel separatorPanel = new Panel
+            {
+                Location = new Point(170, 50),
+                Size = new Size(2, 700),
+                BackColor = Color.Gray
+            };
 
             headerPanel.Controls.Add(sceneNameTextBox);
             headerPanel.Controls.Add(deleteButton);
 
             newScenePanel.Controls.Add(headerPanel);
             newScenePanel.Controls.Add(addBehaviorButton);
+            newScenePanel.Controls.Add(separatorPanel);
 
             foreach (var panel in scenePanels)
             {
@@ -101,5 +114,6 @@ namespace EscapeRoomControlPanel
             sceneCounter++;
             form.UpdateSceneButtonPositions();
         }
+
     }
 }
