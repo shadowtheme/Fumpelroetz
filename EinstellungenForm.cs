@@ -28,10 +28,11 @@ namespace EscapeRoomControlPanel
             }
         }
 
-        private void EinstellungenForm_Click(object sender, EventArgs e)
+        public void EinstellungenForm_Click(object sender, EventArgs e)
         {
             this.ActiveControl = null; // Remove focus from any control
         }
+
 
         private void btnAddScene_Click(object sender, EventArgs e)
         {
@@ -122,6 +123,19 @@ namespace EscapeRoomControlPanel
 
                 // Ensure buttons are positioned correctly after loading scenes
                 UpdateSceneButtonPositions();
+            }
+        }
+
+        // Neue Methode zum Anzeigen des BehaviorManagerForm
+        public void ShowBehaviorManager()
+        {
+            using (var behaviorManagerForm = new BehaviorManagerForm())
+            {
+                if (behaviorManagerForm.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedBehavior = behaviorManagerForm.SelectedBehavior;
+                    MessageBox.Show($"Gewähltes Verhalten: {selectedBehavior}");
+                }
             }
         }
     }
