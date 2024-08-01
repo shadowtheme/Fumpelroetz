@@ -15,7 +15,10 @@ namespace EscapeRoomControlPanel
 
         private void LoadBehaviors()
         {
-            behaviorListBox.Items.Add("PinStatus abfragen");
+            behaviorListBox.Items.Add("PinStatus");
+            behaviorListBox.Items.Add("Szene gestartet");
+            behaviorListBox.Items.Add("Audio startet");
+            behaviorListBox.Items.Add("Audio stoppt");
             // Weitere Verhaltensweisen können hier hinzugefügt werden
         }
 
