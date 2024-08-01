@@ -1,0 +1,14 @@
+namespace EscapeRoomControlPanel
+{
+    public abstract class Behavior
+    {
+        public abstract string Name { get; }
+        public abstract string Description { get; }
+    }
+
+    public class PinStatusBehavior : Behavior
+    {
+        public override string Name => "PinStatus abfragen";
+        public override string Description => "Beschreibung für PinStatus abfragen";
+    }
+}
