@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace EscapeRoomControlPanel
 {
     partial class EinstellungenForm
@@ -47,9 +49,9 @@ namespace EscapeRoomControlPanel
             // 
             this.preShowPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.preShowPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.preShowPanel.Location = new System.Drawing.Point(12, 66);
+            this.preShowPanel.Location = new System.Drawing.Point(28, 66);
             this.preShowPanel.Name = "preShowPanel";
-            this.preShowPanel.Size = new System.Drawing.Size(760, 400);
+            this.preShowPanel.Size = new System.Drawing.Size(1400, 700);
             this.preShowPanel.TabIndex = 0;
             // 
             // EinstellungenForm
