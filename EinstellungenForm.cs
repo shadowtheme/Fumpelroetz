@@ -127,14 +127,14 @@ namespace EscapeRoomControlPanel
         }
 
         // Neue Methode zum Anzeigen des BehaviorManagerForm
-        public void ShowBehaviorManager()
+        public void ShowBehaviorManager(Panel scenePanel)
         {
             using (var behaviorManagerForm = new BehaviorManagerForm())
             {
                 if (behaviorManagerForm.ShowDialog() == DialogResult.OK)
                 {
                     string selectedBehavior = behaviorManagerForm.SelectedBehavior;
-                    MessageBox.Show($"Gewähltes Verhalten: {selectedBehavior}");
+                    MessageBox.Show($"Gewähltes Verhalten: {selectedBehavior} für Szene: {scenePanel.Name}");
                 }
             }
         }
