@@ -6,7 +6,7 @@ namespace EscapeRoomControlPanel
 {
     public static class SceneLoader
     {
-        public static void AddLoadedScene(EinstellungenForm mainForm, SceneData sceneData)
+        public static void AddLoadedScene(EinstellungenForm form, SceneData sceneData)
         {
             Panel newScenePanel = new Panel
             {
@@ -22,7 +22,7 @@ namespace EscapeRoomControlPanel
                 Size = new Size(100, 30),
                 Text = sceneData.Name
             };
-            newSceneButton.Click += (s, e) => mainForm.ShowScene(newScenePanel);
+            newSceneButton.Click += (s, e) => form.ShowScene(newScenePanel);
 
             Panel headerPanel = new Panel
             {
@@ -43,7 +43,7 @@ namespace EscapeRoomControlPanel
                 Width = 700
             };
             sceneNameTextBox.Enter += (s, e) => sceneNameTextBox.SelectAll();
-            sceneNameTextBox.Leave += (s, e) => mainForm.RenameScene(newScenePanel, newSceneButton, sceneNameTextBox.Text);
+            sceneNameTextBox.Leave += (s, e) => form.RenameScene(newScenePanel, newSceneButton, sceneNameTextBox.Text);
             sceneNameTextBox.Click += (s, e) =>
             {
                 sceneNameTextBox.Focus();
@@ -53,15 +53,15 @@ namespace EscapeRoomControlPanel
             {
                 if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
                 {
-                    mainForm.ActiveControl = null; // Remove focus from TextBox
-                    mainForm.RenameScene(newScenePanel, newSceneButton, sceneNameTextBox.Text);
+                    form.ActiveControl = null; // Remove focus from TextBox
+                    form.RenameScene(newScenePanel, newSceneButton, sceneNameTextBox.Text);
                     e.Handled = true;
                     e.SuppressKeyPress = true;
                 }
             };
 
-            newScenePanel.Click += (s, e) => mainForm.ActiveControl = null;
-            headerPanel.Click += (s, e) => mainForm.ActiveControl = null;
+            newScenePanel.Click += form.EinstellungenForm_Click;
+            headerPanel.Click += form.EinstellungenForm_Click;
 
             Button deleteButton = new Button
             {
@@ -69,26 +69,35 @@ namespace EscapeRoomControlPanel
                 Dock = DockStyle.Right,
                 Width = 60
             };
-            deleteButton.Click += (s, e) => mainForm.DeleteScene(newScenePanel, newSceneButton);
+            deleteButton.Click += (s, e) => form.DeleteScene(newScenePanel, newSceneButton);
+
+            Button addBehaviorButton = new Button
+            {
+                Text = "Verhalten hinzufügen",
+                Location = new Point(10, 60),
+                Size = new Size(150, 30)
+            };
+            addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager();
 
             headerPanel.Controls.Add(sceneNameTextBox);
             headerPanel.Controls.Add(deleteButton);
 
             newScenePanel.Controls.Add(headerPanel);
+            newScenePanel.Controls.Add(addBehaviorButton);
 
-            foreach (var panel in mainForm.scenePanels)
+            foreach (var panel in form.scenePanels)
             {
                 panel.Visible = false;
             }
 
-            mainForm.scenePanels.Add(newScenePanel);
-            mainForm.Controls.Add(newScenePanel);
+            form.scenePanels.Add(newScenePanel);
+            form.Controls.Add(newScenePanel);
             newScenePanel.BringToFront();
 
-            mainForm.szeneButtons.Add(newSceneButton);
-            mainForm.Controls.Add(newSceneButton);
+            form.szeneButtons.Add(newSceneButton);
+            form.Controls.Add(newSceneButton);
 
-            mainForm.UpdateSceneButtonPositions();
+            form.UpdateSceneButtonPositions();
         }
     }
 }
