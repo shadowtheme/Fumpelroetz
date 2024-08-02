@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace EscapeRoomControlPanel
@@ -61,10 +62,6 @@ namespace EscapeRoomControlPanel
                 }
             };
 
-            // Add click event to the panel to remove focus from TextBox when clicking outside
-            newScenePanel.Click += form.EinstellungenForm_Click;
-            headerPanel.Click += form.EinstellungenForm_Click;
-
             // Create Delete Button
             Button deleteButton = new Button
             {
@@ -78,9 +75,9 @@ namespace EscapeRoomControlPanel
             Button addBehaviorButton = new Button
             {
                 Text = "Verhalten hinzufügen",
-                Location = new Point(10, 60),
                 Width = 150,
-                Height = 30
+                Height = 30,
+                Location = new Point(10, 70) // Anfangsposition für den "Verhalten hinzufügen" Button
             };
             addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager(newScenePanel);
 
@@ -94,8 +91,8 @@ namespace EscapeRoomControlPanel
 
             headerPanel.Controls.Add(sceneNameTextBox);
             headerPanel.Controls.Add(deleteButton);
-
             newScenePanel.Controls.Add(headerPanel);
+
             newScenePanel.Controls.Add(addBehaviorButton);
             newScenePanel.Controls.Add(separatorPanel);
 
@@ -115,5 +112,43 @@ namespace EscapeRoomControlPanel
             form.UpdateSceneButtonPositions();
         }
 
+        public static void ShowBehaviorManager(EinstellungenForm form, Panel scenePanel)
+        {
+            using (var behaviorManagerForm = new BehaviorManagerForm())
+            {
+                if (behaviorManagerForm.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedBehavior = behaviorManagerForm.SelectedBehavior;
+
+                    // Berechne die Anzahl der vorhandenen Verhaltensbuttons
+                    int behaviorButtonCount = scenePanel.Controls.OfType<Button>().Count(b => b.Text != "Verhalten hinzufügen");
+
+                    // Erstellen des Buttons für das ausgewählte Verhalten
+                    Button behaviorButton = new Button
+                    {
+                        Text = selectedBehavior,
+                        Size = new Size(150, 30), // gleiche Größe wie der Button "Verhalten hinzufügen"
+                        Location = new Point(10, 60 + 40 * behaviorButtonCount), // Position unterhalb der vorherigen Buttons
+                        TextAlign = ContentAlignment.MiddleCenter, // Text zentrieren
+                        BackColor = SystemColors.ControlLight // gleiche Hintergrundfarbe wie das Panel
+                    };
+
+                    // Hinzufügen des Buttons zum Panel
+                    scenePanel.Controls.Add(behaviorButton);
+
+                    // Neupositionierung des "Verhalten hinzufügen" Buttons
+                    foreach (Control control in scenePanel.Controls)
+                    {
+                        if (control is Button && control.Text == "Verhalten hinzufügen")
+                        {
+                            control.Location = new Point(control.Location.X, behaviorButton.Location.Y + 40); // 30px Höhe + 10px Abstand
+                            break;
+                        }
+                    }
+
+                    MessageBox.Show($"Gewähltes Verhalten: {selectedBehavior}");
+                }
+            }
+        }
     }
 }
