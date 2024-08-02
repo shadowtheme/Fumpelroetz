@@ -30,7 +30,7 @@ namespace EscapeRoomControlPanel
         public override string Description => "Beschreibung abfragen";
     }
 
-    public class AudioStopptBehavior : Behavior
+    public class AktionbuttonBehavior : Behavior
     {
         public override string Name => "Aktionbutton";
         public override string Description => "Beschreibung abfragen";
