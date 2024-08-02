@@ -5,7 +5,7 @@ namespace EscapeRoomControlPanel
 {
     public static class SceneLoader
     {
-        public static void AddLoadedScene(EinstellungenForm form, SceneData sceneData)
+        public static Panel AddLoadedScene(EinstellungenForm form, SceneData sceneData)
         {
             Panel newScenePanel = new Panel
             {
@@ -59,10 +59,6 @@ namespace EscapeRoomControlPanel
                 }
             };
 
-            // Add click event to the panel to remove focus from TextBox when clicking outside
-            newScenePanel.Click += form.EinstellungenForm_Click;
-            headerPanel.Click += form.EinstellungenForm_Click;
-
             // Create Delete Button
             Button deleteButton = new Button
             {
@@ -76,9 +72,9 @@ namespace EscapeRoomControlPanel
             Button addBehaviorButton = new Button
             {
                 Text = "Verhalten hinzufügen",
-                Location = new Point(10, 60),
                 Width = 150,
-                Height = 30
+                Height = 30,
+                Location = new Point(10, 70) // Anfangsposition für den "Verhalten hinzufügen" Button
             };
             addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager(newScenePanel);
 
@@ -92,19 +88,25 @@ namespace EscapeRoomControlPanel
 
             headerPanel.Controls.Add(sceneNameTextBox);
             headerPanel.Controls.Add(deleteButton);
-
             newScenePanel.Controls.Add(headerPanel);
             newScenePanel.Controls.Add(addBehaviorButton);
             newScenePanel.Controls.Add(separatorPanel);
 
-            form.Controls.Add(newScenePanel);
-            form.Controls.Add(newSceneButton);
+            foreach (var panel in form.scenePanels)
+            {
+                panel.Visible = false;
+            }
 
             form.scenePanels.Add(newScenePanel);
+            form.Controls.Add(newScenePanel);
+            newScenePanel.BringToFront();
+
             form.szeneButtons.Add(newSceneButton);
+            form.Controls.Add(newSceneButton);
 
             form.UpdateSceneButtonPositions();
-        }
 
+            return newScenePanel; // Panel zurückgeben
+        }
     }
 }
