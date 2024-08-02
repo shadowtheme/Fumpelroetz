@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -32,7 +33,6 @@ namespace EscapeRoomControlPanel
         {
             this.ActiveControl = null; // Remove focus from any control
         }
-
 
         private void btnAddScene_Click(object sender, EventArgs e)
         {
@@ -101,7 +101,18 @@ namespace EscapeRoomControlPanel
             {
                 // Store the Text of the TextBox (Scene name)
                 var textBox = (TextBox)panel.Controls[0].Controls[0];
-                scenes.Add(new SceneData { Name = textBox.Text, LocationX = panel.Location.X, LocationY = panel.Location.Y });
+                var behaviors = panel.Controls.OfType<Button>()
+                                   .Where(b => b.Text != "Verhalten hinzufügen")
+                                   .Select(b => b.Text)
+                                   .ToList();
+
+                scenes.Add(new SceneData
+                {
+                    Name = textBox.Text,
+                    LocationX = panel.Location.X,
+                    LocationY = panel.Location.Y,
+                    Behaviors = behaviors
+                });
             }
             var json = JsonConvert.SerializeObject(scenes);
             File.WriteAllText("scenes.json", json);
@@ -115,7 +126,32 @@ namespace EscapeRoomControlPanel
                 var scenes = JsonConvert.DeserializeObject<List<SceneData>>(json);
                 foreach (var scene in scenes)
                 {
-                    SceneLoader.AddLoadedScene(this, scene);
+                    var panel = SceneLoader.AddLoadedScene(this, scene);
+                    if (scene.Behaviors != null)
+                    {
+                        foreach (var behavior in scene.Behaviors)
+                        {
+                            var behaviorButton = new Button
+                            {
+                                Text = behavior,
+                                Size = new Size(150, 30), // gleiche Größe wie der Button "Verhalten hinzufügen"
+                                Location = new Point(10, 60 + 40 * panel.Controls.OfType<Button>().Count(b => b.Text != "Verhalten hinzufügen")), // Position unterhalb der vorherigen Buttons
+                                TextAlign = ContentAlignment.MiddleCenter, // Text zentrieren
+                                BackColor = SystemColors.ControlLight // gleiche Hintergrundfarbe wie das Panel
+                            };
+                            panel.Controls.Add(behaviorButton);
+                        }
+                    }
+
+                    // Neupositionierung des "Verhalten hinzufügen" Buttons nach dem Laden der Verhaltensweisen
+                    foreach (Control control in panel.Controls)
+                    {
+                        if (control is Button && control.Text == "Verhalten hinzufügen")
+                        {
+                            control.Location = new Point(control.Location.X, 60 + 40 * panel.Controls.OfType<Button>().Count(b => b.Text != "Verhalten hinzufügen")); // 30px Höhe + 10px Abstand
+                            break;
+                        }
+                    }
                 }
 
                 // Correct the scene counter based on the number of loaded scenes
@@ -126,17 +162,9 @@ namespace EscapeRoomControlPanel
             }
         }
 
-        // Neue Methode zum Anzeigen des BehaviorManagerForm
         public void ShowBehaviorManager(Panel scenePanel)
         {
-            using (var behaviorManagerForm = new BehaviorManagerForm())
-            {
-                if (behaviorManagerForm.ShowDialog() == DialogResult.OK)
-                {
-                    string selectedBehavior = behaviorManagerForm.SelectedBehavior;
-                    MessageBox.Show($"Gewähltes Verhalten: {selectedBehavior} für Szene: {scenePanel.Name}");
-                }
-            }
+            SceneManager.ShowBehaviorManager(this, scenePanel);
         }
     }
 }
