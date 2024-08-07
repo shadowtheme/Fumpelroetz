@@ -1,3 +1,4 @@
+
 namespace EscapeRoomControlPanel
 {
     partial class BehaviorManagerForm
