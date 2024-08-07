@@ -1,3 +1,4 @@
+
 namespace EscapeRoomControlPanel
 {
     public abstract class Behavior
