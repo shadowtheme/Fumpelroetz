@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EscapeRoomControlPanel
 {
@@ -144,24 +145,26 @@ namespace EscapeRoomControlPanel
             }
 
             // Positionierung des neuen Panels direkt unter dem "Verhalten hinzufügen" Button
-            Point panelLocation = new Point(addBehaviorButton.Location.X, addBehaviorButton.Location.Y + addBehaviorButton.Height);
+            Point panelLocation = new Point(addBehaviorButton.Location.X, addBehaviorButton.Location.Y + addBehaviorButton.Height + 20);
 
             // Erstellen und Anzeigen eines Panels statt eines neuen Fensters
             behaviorPanel = new Panel
             {
                 Name = "behaviorPanel",
                 Location = panelLocation,
-                Size = new Size(150, 200),
-               // BackColor = Color.Gray
+                Size = new Size(150, 170),
+                BackColor = Color.LightGray
             };
 
             // Beispielhafte ListBox für die Verhaltensweisen
             ListBox behaviorListBox = new ListBox
             {
-                Location = new Point(10, 40),
+                Location = new Point(10, 12),
                 Size = new Size(130, 150),
-                BackColor = Color.LightGray
-            };
+                BackColor = Color.LightGray,
+                BorderStyle = BorderStyle.None, // Entfernen des Rahmens
+                //Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, e.Bounds.Top + 2)
+        };
             behaviorListBox.Items.AddRange(new string[] { "PinStatus", "Szene gestartet", "Audio startet", "Audio stoppt", "Aktionbutton" });
 
             behaviorListBox.SelectedIndexChanged += (s, e) =>
