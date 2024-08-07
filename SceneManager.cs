@@ -152,7 +152,7 @@ namespace EscapeRoomControlPanel
             {
                 Name = "behaviorPanel",
                 Location = panelLocation,
-                Size = new Size(150, 170),
+                Size = new Size(150, 120),
                 BackColor = Color.LightGray
             };
 
@@ -160,7 +160,7 @@ namespace EscapeRoomControlPanel
             ListBox behaviorListBox = new ListBox
             {
                 Location = new Point(10, 12),
-                Size = new Size(130, 150),
+                Size = new Size(130, 100),
                 BackColor = Color.LightGray,
                 BorderStyle = BorderStyle.None, // Entfernen des Rahmens
                 //Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, e.Bounds.Top + 2)
@@ -183,7 +183,7 @@ namespace EscapeRoomControlPanel
                         Size = new Size(150, 30), // gleiche Größe wie der Button "Verhalten hinzufügen"
                         Location = new Point(10, 60 + 40 * behaviorButtonCount), // Position unterhalb der vorherigen Buttons
                         TextAlign = ContentAlignment.MiddleCenter, // Text zentrieren
-                        BackColor = SystemColors.ControlLight // gleiche Hintergrundfarbe wie das Panel
+                        BackColor = SystemColors.ControlLight 
                     };
 
                     // Hinzufügen des Buttons zum Panel
@@ -212,7 +212,7 @@ namespace EscapeRoomControlPanel
             };
 
             form.Click += formClickHandler;
-            scenePanel.Click += formClickHandler; // Füge den gleichen Handler für Klicks auf das scenePanel hinzu
+            scenePanel.Click += formClickHandler; 
         }
 
         private static void RemoveFormClickHandler(Form form, Panel scenePanel)
@@ -220,7 +220,7 @@ namespace EscapeRoomControlPanel
             if (formClickHandler != null)
             {
                 form.Click -= formClickHandler;
-                scenePanel.Click -= formClickHandler; // Entferne den Handler auch vom scenePanel
+                scenePanel.Click -= formClickHandler; 
                 formClickHandler = null;
             }
         }
