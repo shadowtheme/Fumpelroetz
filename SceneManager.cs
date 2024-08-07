@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -77,7 +78,7 @@ namespace EscapeRoomControlPanel
                 Text = "Verhalten hinzufügen",
                 Width = 150,
                 Height = 30,
-                Location = new Point(10, 70) // Anfangsposition für den "Verhalten hinzufügen" Button 
+                Location = new Point(10, 60) // Anfangsposition für den "Verhalten hinzufügen" Button 
             };
             addBehaviorButton.Click += (s, e) => form.ShowBehaviorManager(newScenePanel);
 
